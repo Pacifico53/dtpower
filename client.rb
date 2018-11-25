@@ -1,8 +1,8 @@
 require 'socket'
-server = TCPSocket.new 'localhost', 5678
+server = TCPSocket.new('localhost', 8080)
 
 while line = server.gets
-  puts line
+    puts line
 end
 
 server.close
