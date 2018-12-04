@@ -13,6 +13,6 @@ DevTeam Stuff
 2. To run the server just do ruby r.rb
 3. To see the webpage just open up a browser and type localhost:4545
 
-... +To test the 404 response erase index.html   
-... +To test the 400 response change line 67 to something different than "/" (e.g. "//")   
+⋅⋅⋅ ⋅⋅+To test the 404 response erase index.html   
+⋅⋅⋅ ⋅⋅+To test the 400 response change line 67 to something different than "/" (e.g. "//")   
 
