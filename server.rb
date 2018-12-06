@@ -15,12 +15,10 @@ Accept: */*
 Request data is separated via newlines \r\n
 =end
 
-
 class ParseRequest
     def self.parse(request)
-        method, path, version = 
+        method, path, version =
             request.lines[0].split
-
             {
                 path: path,
                 method: method,
@@ -29,8 +27,8 @@ class ParseRequest
     end
 
     def self.normalize(header)
-             header.gsub(":", "").downcase.to_sym
-        end
+        header.gsub(":", "").downcase.to_sym
+    end
 
     def self.parse_headers(request)
         headers = {}
@@ -47,37 +45,29 @@ class ParseRequest
             header = normalize(header)
 
             headers[header] = value
-
-
-        
+        end
     end
-    
 
-end
-
-#Check if a file is available if it isn't send a 
-#404 response if it is send a 200 response 
+#Check if a file is available if it isn't send a
+#404 response if it is send a 200 response
 class PrepareResponse
-    
-    SERVER_ROOT = "/home/yoda45/Desktop/Projects/CAOS/RubyServer/"
+    SERVER_ROOT = "./"
 
     def self.prepare(request)
-        
         #change to // to see bad request
         if request.fetch(:path) == "/"
             respond_with(SERVER_ROOT + "index.html")
         else
-            bad_req(File.binread(SERVER_ROOT + "reqb.html"))
+            bad_req(File.binread(SERVER_ROOT + "400.html"))
         end
     end
 
     def self.respond_with(path)
-
         if File.exists?(path)
             send_ok(File.binread(path))
         else
             #erase index.html to see 404 page
-            send_file_not_found(File.binread(SERVER_ROOT+"bad.html"))
+            send_file_not_found(File.binread(SERVER_ROOT+"404.html"))
         end
     end
 
@@ -88,7 +78,7 @@ class PrepareResponse
     def self.send_file_not_found(data)
         Response.new(code:404, data: data)
     end
-    
+
     def self.bad_req(data)
         Response.new(code:400, data:data)
     end
@@ -106,17 +96,12 @@ class Response
 
     def get
         return @codi
-    end 
+    end
 
     def send(client)
         client.write(@response)
     end
 end
-
-
-
-
-
 
 #create new server socket bound to port
 server = TCPServer.new('127.0.0.1',4545)
